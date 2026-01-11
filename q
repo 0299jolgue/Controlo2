@@ -1,1 +1,1 @@
-pip install pywin32 pycryptodome
+pip install requests pyinstaller
