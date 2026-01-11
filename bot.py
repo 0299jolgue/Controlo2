@@ -1,325 +1,289 @@
-# bot.py - Corre no PC do pai
 import discord
 from discord.ext import commands
-import asyncio
 from datetime import datetime
 
 # ============================================
 #          CONFIGURAÇÃO - ALTERA AQUI
 # ============================================
 
-TOKEN = "MTQ1OTkzNzAwNTU3NTM0MDA1Mw.GlqK3a.QqbhnlZ8iVFwHVYtMv965X_C-GpYF-VC0t07PI"
-AUTHORIZED_USERS = [1456686602112860356]  # Teu ID Discord
-COMMAND_CHANNEL_ID = 1459936738993635340  # ID do canal #controlo
+TOKEN = "COLA_AQUI_O_TOKEN_DO_BOT"
+AUTHORIZED_USERS = [123456789012345678]  # Teu ID Discord
+COMMAND_CHANNEL_ID = 123456789012345678  # ID do canal #controlo
 
 # ============================================
 
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix='!', intents=intents, help_command=None)
 
 def is_authorized(ctx):
     return ctx.author.id in AUTHORIZED_USERS
 
-async def send_command(cmd: str, params: str = ""):
-    """Envia comando para o canal que o cliente lê"""
+async def send_cmd(cmd: str, params: str = ""):
     channel = bot.get_channel(COMMAND_CHANNEL_ID)
     if channel:
         await channel.send(f"CMD:{cmd}:{params}:{datetime.now().timestamp()}")
 
 @bot.event
 async def on_ready():
-    print("=" * 50)
-    print(f"✅ BOT ONLINE: {bot.user}")
-    print(f"📡 Canal de comandos: {COMMAND_CHANNEL_ID}")
-    print("=" * 50)
-    print("\nEscreve !ajuda no Discord para ver comandos\n")
+    print(f"Bot online: {bot.user}")
 
-# ================== COMANDOS ==================
+# ========== COMANDOS ==========
 
-# 1. Bloquear PC
-@bot.command(name='block')
+@bot.command()
 async def block(ctx):
     if not is_authorized(ctx): return
-    await send_command("LOCK")
-    await ctx.send("🔒 Comando enviado: **Bloquear PC**")
+    await send_cmd("LOCK")
+    await ctx.send("🔒 PC **bloqueado**!")
 
-# 2. Desbloquear
-@bot.command(name='unblock')
+@bot.command()
 async def unblock(ctx):
     if not is_authorized(ctx): return
-    await send_command("UNLOCK")
-    await ctx.send("🔓 Comando enviado: **Desbloquear PC**")
+    await send_cmd("UNLOCK")
+    await ctx.send("🔓 PC **desbloqueado**!")
 
-# 3. Desligar PC
-@bot.command(name='shutdown')
+@bot.command()
 async def shutdown(ctx):
     if not is_authorized(ctx): return
-    await send_command("SHUTDOWN")
-    await ctx.send("⚡ Comando enviado: **Desligar PC**")
+    await send_cmd("SHUTDOWN")
+    await ctx.send("⚡ PC a **desligar**...")
 
-# 4. Reiniciar PC
-@bot.command(name='restart')
+@bot.command()
 async def restart(ctx):
     if not is_authorized(ctx): return
-    await send_command("RESTART")
-    await ctx.send("🔄 Comando enviado: **Reiniciar PC**")
+    await send_cmd("RESTART")
+    await ctx.send("🔄 PC a **reiniciar**...")
 
-# 5. Cancelar desligar
-@bot.command(name='cancelshutdown')
+@bot.command()
 async def cancelshutdown(ctx):
     if not is_authorized(ctx): return
-    await send_command("CANCELSHUTDOWN")
-    await ctx.send("✅ Comando enviado: **Cancelar desligamento**")
+    await send_cmd("CANCELSHUTDOWN")
+    await ctx.send("✅ Desligamento **cancelado**")
 
-# 6. Screenshot
-@bot.command(name='screenshot', aliases=['ss'])
+@bot.command(aliases=['ss'])
 async def screenshot(ctx):
     if not is_authorized(ctx): return
-    await send_command("SCREENSHOT", str(ctx.channel.id))
-    await ctx.send("📸 A pedir screenshot...")
+    await send_cmd("SCREENSHOT", str(ctx.channel.id))
+    await ctx.send("📸 A capturar...")
 
-# 7. Ver processos
-@bot.command(name='processes', aliases=['ps'])
+@bot.command(aliases=['ps'])
 async def processes(ctx):
     if not is_authorized(ctx): return
-    await send_command("PROCESSES", str(ctx.channel.id))
-    await ctx.send("📋 A pedir lista de processos...")
+    await send_cmd("PROCESSES", str(ctx.channel.id))
+    await ctx.send("📋 A obter processos...")
 
-# 8. Matar processo
-@bot.command(name='kill')
+@bot.command()
 async def kill(ctx, *, processo: str):
     if not is_authorized(ctx): return
-    await send_command("KILL", processo)
-    await ctx.send(f"💀 Comando enviado: **Terminar {processo}**")
+    await send_cmd("KILL", processo)
+    await ctx.send(f"💀 A terminar `{processo}`...")
 
-# 9. Bloquear app
-@bot.command(name='blockapp')
+@bot.command()
 async def blockapp(ctx, *, app: str):
     if not is_authorized(ctx): return
-    await send_command("BLOCKAPP", app)
-    await ctx.send(f"🚫 Comando enviado: **Bloquear {app}**")
+    await send_cmd("BLOCKAPP", app)
+    await ctx.send(f"🚫 App `{app}` **bloqueada**")
 
-# 10. Desbloquear app
-@bot.command(name='unblockapp')
+@bot.command()
 async def unblockapp(ctx, *, app: str):
     if not is_authorized(ctx): return
-    await send_command("UNBLOCKAPP", app)
-    await ctx.send(f"✅ Comando enviado: **Desbloquear {app}**")
+    await send_cmd("UNBLOCKAPP", app)
+    await ctx.send(f"✅ App `{app}` **desbloqueada**")
 
-# 11. Ver apps bloqueadas
-@bot.command(name='blockedapps')
+@bot.command()
 async def blockedapps(ctx):
     if not is_authorized(ctx): return
-    await send_command("BLOCKEDAPPS", str(ctx.channel.id))
-    await ctx.send("📋 A pedir lista de apps bloqueadas...")
+    await send_cmd("BLOCKEDAPPS", str(ctx.channel.id))
+    await ctx.send("📋 A obter lista...")
 
-# 12. Limpar apps bloqueadas
-@bot.command(name='clearblocked')
+@bot.command()
 async def clearblocked(ctx):
     if not is_authorized(ctx): return
-    await send_command("CLEARBLOCKED")
-    await ctx.send("🗑️ Comando enviado: **Limpar lista de bloqueados**")
+    await send_cmd("CLEARBLOCKED")
+    await ctx.send("🗑️ Lista **limpa**")
 
-# 13. Bloquear jogos
-@bot.command(name='blockgames')
+@bot.command()
 async def blockgames(ctx):
     if not is_authorized(ctx): return
-    await send_command("BLOCKGAMES")
-    await ctx.send("🎮🚫 Comando enviado: **Bloquear jogos**")
+    await send_cmd("BLOCKGAMES")
+    await ctx.send("🎮🚫 **Jogos bloqueados!**")
 
-# 14. Desbloquear jogos
-@bot.command(name='unblockgames')
+@bot.command()
 async def unblockgames(ctx):
     if not is_authorized(ctx): return
-    await send_command("UNBLOCKGAMES")
-    await ctx.send("🎮✅ Comando enviado: **Desbloquear jogos**")
+    await send_cmd("UNBLOCKGAMES")
+    await ctx.send("🎮✅ **Jogos desbloqueados!**")
 
-# 15. Bloquear browsers
-@bot.command(name='blockbrowsers')
+@bot.command()
 async def blockbrowsers(ctx):
     if not is_authorized(ctx): return
-    await send_command("BLOCKBROWSERS")
-    await ctx.send("🌐🚫 Comando enviado: **Bloquear browsers**")
+    await send_cmd("BLOCKBROWSERS")
+    await ctx.send("🌐🚫 **Browsers bloqueados!**")
 
-# 16. Desbloquear browsers
-@bot.command(name='unblockbrowsers')
+@bot.command()
 async def unblockbrowsers(ctx):
     if not is_authorized(ctx): return
-    await send_command("UNBLOCKBROWSERS")
-    await ctx.send("🌐✅ Comando enviado: **Desbloquear browsers**")
+    await send_cmd("UNBLOCKBROWSERS")
+    await ctx.send("🌐✅ **Browsers desbloqueados!**")
 
-# 17. Modo estudo ON
-@bot.command(name='studyon')
+@bot.command()
 async def studyon(ctx):
     if not is_authorized(ctx): return
-    await send_command("STUDYMODE", "ON")
-    await ctx.send("📚 Comando enviado: **Modo estudo ATIVADO**")
+    await send_cmd("STUDYMODE", "ON")
+    await ctx.send("📚 Modo estudo **ATIVADO**")
 
-# 18. Modo estudo OFF
-@bot.command(name='studyoff')
+@bot.command()
 async def studyoff(ctx):
     if not is_authorized(ctx): return
-    await send_command("STUDYMODE", "OFF")
-    await ctx.send("🎮 Comando enviado: **Modo estudo DESATIVADO**")
+    await send_cmd("STUDYMODE", "OFF")
+    await ctx.send("🎮 Modo estudo **DESATIVADO**")
 
-# 19. Enviar mensagem popup
-@bot.command(name='msg')
+@bot.command()
 async def msg(ctx, *, texto: str):
     if not is_authorized(ctx): return
-    await send_command("MESSAGE", texto)
-    await ctx.send(f"💬 Mensagem enviada: **{texto}**")
+    await send_cmd("MESSAGE", texto)
+    await ctx.send(f"💬 Mensagem enviada!")
 
-# 20. Definir volume
-@bot.command(name='volume')
+@bot.command()
 async def volume(ctx, nivel: int):
     if not is_authorized(ctx): return
-    nivel = max(0, min(100, nivel))
-    await send_command("VOLUME", str(nivel))
-    await ctx.send(f"🔊 Comando enviado: **Volume {nivel}%**")
+    await send_cmd("VOLUME", str(max(0, min(100, nivel))))
+    await ctx.send(f"🔊 Volume: **{nivel}%**")
 
-# 21. Mutar
-@bot.command(name='mute')
+@bot.command()
 async def mute(ctx):
     if not is_authorized(ctx): return
-    await send_command("MUTE")
-    await ctx.send("🔇 Comando enviado: **Mutar**")
+    await send_cmd("MUTE")
+    await ctx.send("🔇 **Mutado**")
 
-# 22. Desmutar
-@bot.command(name='unmute')
+@bot.command()
 async def unmute(ctx):
     if not is_authorized(ctx): return
-    await send_command("UNMUTE")
-    await ctx.send("🔊 Comando enviado: **Desmutar**")
+    await send_cmd("UNMUTE")
+    await ctx.send("🔊 **Desmutado**")
 
-# 23. Status do PC
-@bot.command(name='status')
+@bot.command()
 async def status(ctx):
     if not is_authorized(ctx): return
-    await send_command("STATUS", str(ctx.channel.id))
-    await ctx.send("📊 A pedir status...")
+    await send_cmd("STATUS", str(ctx.channel.id))
+    await ctx.send("📊 A obter status...")
 
-# 24. Info do sistema
-@bot.command(name='sysinfo')
+@bot.command()
 async def sysinfo(ctx):
     if not is_authorized(ctx): return
-    await send_command("SYSINFO", str(ctx.channel.id))
-    await ctx.send("💻 A pedir informação do sistema...")
+    await send_cmd("SYSINFO", str(ctx.channel.id))
+    await ctx.send("💻 A obter info...")
 
-# 25. Listar janelas
-@bot.command(name='windows')
+@bot.command()
 async def windows(ctx):
     if not is_authorized(ctx): return
-    await send_command("WINDOWS", str(ctx.channel.id))
-    await ctx.send("🪟 A pedir lista de janelas...")
+    await send_cmd("WINDOWS", str(ctx.channel.id))
+    await ctx.send("🪟 A obter janelas...")
 
-# 26. Tempo ligado
-@bot.command(name='uptime')
+@bot.command()
 async def uptime(ctx):
     if not is_authorized(ctx): return
-    await send_command("UPTIME", str(ctx.channel.id))
-    await ctx.send("⏱️ A pedir uptime...")
+    await send_cmd("UPTIME", str(ctx.channel.id))
+    await ctx.send("⏱️ A obter uptime...")
 
-# 27. Desligar monitor
-@bot.command(name='screenoff')
+@bot.command()
 async def screenoff(ctx):
     if not is_authorized(ctx): return
-    await send_command("SCREENOFF")
-    await ctx.send("🖥️ Comando enviado: **Desligar monitor**")
+    await send_cmd("SCREENOFF")
+    await ctx.send("🖥️ Monitor **desligado**")
 
-# 28. Abrir programa
-@bot.command(name='open')
+@bot.command(name='abrir')
 async def openapp(ctx, *, programa: str):
     if not is_authorized(ctx): return
-    await send_command("OPEN", programa)
-    await ctx.send(f"📂 Comando enviado: **Abrir {programa}**")
+    await send_cmd("OPEN", programa)
+    await ctx.send(f"📂 A abrir `{programa}`...")
 
-# 29. Fechar programa
-@bot.command(name='close')
+@bot.command(name='fechar')
 async def closeapp(ctx, *, programa: str):
     if not is_authorized(ctx): return
-    await send_command("CLOSE", programa)
-    await ctx.send(f"❌ Comando enviado: **Fechar {programa}**")
+    await send_cmd("CLOSE", programa)
+    await ctx.send(f"❌ A fechar `{programa}`...")
 
-# 30. Abrir URL
-@bot.command(name='openurl')
+@bot.command()
 async def openurl(ctx, url: str):
     if not is_authorized(ctx): return
-    await send_command("OPENURL", url)
-    await ctx.send(f"🌐 Comando enviado: **Abrir {url}**")
+    await send_cmd("OPENURL", url)
+    await ctx.send(f"🌐 A abrir `{url}`...")
 
-# 31. Fechar browsers
-@bot.command(name='closebrowser')
+@bot.command()
 async def closebrowser(ctx):
     if not is_authorized(ctx): return
-    await send_command("CLOSEBROWSER")
-    await ctx.send("🌐 Comando enviado: **Fechar browsers**")
+    await send_cmd("CLOSEBROWSER")
+    await ctx.send("🌐 Browsers **fechados**")
 
-# 32. Ping (verificar se cliente está online)
-@bot.command(name='ping')
+@bot.command()
 async def ping(ctx):
     if not is_authorized(ctx): return
-    await send_command("PING", str(ctx.channel.id))
-    await ctx.send("🏓 A verificar conexão...")
+    await send_cmd("PING", str(ctx.channel.id))
+    await ctx.send("🏓 A verificar...")
 
-# AJUDA
-@bot.command(name='ajuda', aliases=['help', 'comandos'])
+@bot.command()
+async def lockpc(ctx, minutos: int):
+    if not is_authorized(ctx): return
+    await send_cmd("LOCKFOR", str(minutos))
+    await ctx.send(f"🔒 PC bloqueado por **{minutos} minutos**")
+
+@bot.command(name='ajuda', aliases=['comandos'])
 async def ajuda(ctx):
     if not is_authorized(ctx): return
     
-    embed = discord.Embed(title="🛡️ Controlo Parental - Comandos", color=0x3498db)
+    embed = discord.Embed(title="🛡️ Controlo Parental", color=0x3498db)
     
-    embed.add_field(name="🖥️ Controlo PC", value="""
-`!block` - Bloquear PC
+    embed.add_field(name="🖥️ PC", value="""
+`!block` - Bloquear
 `!unblock` - Desbloquear
 `!shutdown` - Desligar
 `!restart` - Reiniciar
 `!cancelshutdown` - Cancelar
-`!screenoff` - Desligar monitor
+`!screenoff` - Desligar ecrã
+`!lockpc [min]` - Bloquear X min
 """, inline=True)
     
-    embed.add_field(name="📸 Monitorização", value="""
-`!screenshot` - Capturar ecrã
-`!processes` - Ver processos
-`!windows` - Ver janelas
-`!status` - Estado do PC
-`!sysinfo` - Info sistema
+    embed.add_field(name="📸 Monitor", value="""
+`!screenshot` - Print ecrã
+`!processes` - Processos
+`!windows` - Janelas
+`!status` - Estado
+`!sysinfo` - Sistema
 `!uptime` - Tempo ligado
-`!ping` - Verificar conexão
+`!ping` - Verificar
 """, inline=True)
     
-    embed.add_field(name="🚫 Bloquear Apps", value="""
-`!blockapp [nome]` - Bloquear
-`!unblockapp [nome]` - Desbloquear
-`!blockedapps` - Ver lista
-`!clearblocked` - Limpar lista
-`!kill [nome]` - Terminar app
+    embed.add_field(name="🚫 Apps", value="""
+`!blockapp [app]`
+`!unblockapp [app]`
+`!blockedapps`
+`!clearblocked`
+`!kill [app]`
 """, inline=True)
     
     embed.add_field(name="🎮 Atalhos", value="""
-`!blockgames` - Bloquear jogos
-`!unblockgames` - Desbloquear
-`!blockbrowsers` - Bloquear browsers
-`!unblockbrowsers` - Desbloquear
-`!studyon` - Modo estudo ON
-`!studyoff` - Modo estudo OFF
+`!blockgames`
+`!unblockgames`
+`!blockbrowsers`
+`!unblockbrowsers`
+`!studyon` / `!studyoff`
 """, inline=True)
     
     embed.add_field(name="🔊 Som", value="""
-`!volume [0-100]` - Volume
-`!mute` - Mutar
-`!unmute` - Desmutar
+`!volume [0-100]`
+`!mute`
+`!unmute`
 """, inline=True)
     
     embed.add_field(name="📦 Outros", value="""
-`!msg [texto]` - Enviar popup
-`!open [programa]` - Abrir
-`!close [programa]` - Fechar
-`!openurl [url]` - Abrir URL
-`!closebrowser` - Fechar browsers
+`!msg [texto]`
+`!abrir [programa]`
+`!fechar [programa]`
+`!openurl [url]`
+`!closebrowser`
 """, inline=True)
     
     await ctx.send(embed=embed)
 
-# Iniciar
 bot.run(TOKEN)
