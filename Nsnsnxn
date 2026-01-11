@@ -1,5 +1,6 @@
 import requests
 import time
+import json
 
 # Define o URL do webhook do Discord
 webhook_url = "https://discord.com/api/webhooks/1459892256084594792/UCjUu_FmaK-p8bK5xr9GW4Q-RWgrar7lNhdH-o40aDYYegdf0O3TsnzBajQdUDubsKT9"
