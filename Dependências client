@@ -1,0 +1,1 @@
+pip install discord.py psutil pyautogui pillow pywin32 pycaw comtypes
