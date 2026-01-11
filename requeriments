@@ -1,1 +1,0 @@
-pip3 install psutil pillow opencv-python sounddevice scipy numpy pyperclip pyinstaller
