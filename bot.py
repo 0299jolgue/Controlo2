@@ -6,9 +6,9 @@ from datetime import datetime
 #          CONFIGURAÇÃO - ALTERA AQUI
 # ============================================
 
-TOKEN = "COLA_AQUI_O_TOKEN_DO_BOT"
-AUTHORIZED_USERS = [123456789012345678]  # Teu ID Discord
-COMMAND_CHANNEL_ID = 123456789012345678  # ID do canal #controlo
+TOKEN = "MTQ1OTkzNzAwNTU3NTM0MDA1Mw.GlqK3a.QqbhnlZ8iVFwHVYtMv965X_C-GpYF-VC0t07PI"
+AUTHORIZED_USERS = [1456686602112860356]  # Teu ID Discord
+COMMAND_CHANNEL_ID = 1459936738993635340  # ID do canal #controlo
 
 # ============================================
 
