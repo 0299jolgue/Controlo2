@@ -1,1 +1,1 @@
-pip install psutil pillow opencv-python sounddevice scipy numpy
+pip install psutil pillow opencv-python sounddevice scipy numpy pyautogui pyinstaller
